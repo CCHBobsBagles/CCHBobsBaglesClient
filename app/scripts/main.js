@@ -9,7 +9,34 @@ var CCHBBClient = {
     orders: []
   },
 
-  menu: {}
+  menu: {},
+
+  stripeResponseHandler: function(status, response) {
+      var $form = $('#payment-form');
+      debugger
+      if (response.error) {
+        // Show the errors on the form
+        $form.find('.payment-errors').text(response.error.message);
+        $form.find('button').prop('disabled', false);
+      } else {
+        // response contains id and card, which contains additional card details
+        var token = response.id;
+        var fullName = response.card.name;
+        var street = response.card.address_line1;
+        var city = response.card.address_city;
+        var state = response.card.address_state;
+        var zip = response.card.address_zip;
+        // Insert the token into the form so it gets submitted to the server
+        $form.append($('<input type="hidden" name="order[access_token]" />').val(token));
+        $form.append($('<input type="hidden" name="order[name]" />').val(fullName));
+        $form.append($('<input type="hidden" name="order[street]" />').val(street));
+        $form.append($('<input type="hidden" name="order[city]" />').val(city));
+        $form.append($('<input type="hidden" name="order[state]" />').val(state));
+        $form.append($('<input type="hidden" name="order[zipcode]" />').val(zip));
+        // and submit
+        $form.get(0).submit();
+      }
+  }
 };
 
 CCHBBClient.renderCart = function(name, price) {
@@ -108,35 +135,6 @@ var Router = Backbone.Router.extend({
       order_items: CCHBBClient.cart.orders,
       total_price: total
     }));
-
-    Stripe.setPublishableKey('pk_test_0fbtu0To5Q8TurGcFy6XZ505');
-
-    function stripeResponseHandler(status, response) {
-      var $form = $('#payment-form');
-    
-      if (response.error) {
-        // Show the errors on the form
-        $form.find('.payment-errors').text(response.error.message);
-        $form.find('button').prop('disabled', false);
-      } else {
-        // response contains id and card, which contains additional card details
-        var token = response.id;
-        var fullName = response.card.name;
-        var street = response.card.address_line1;
-        var city = response.card.city;
-        var state = response.card.state;
-        var zip = response.card.zip;
-        // Insert the token into the form so it gets submitted to the server
-        $form.append($('<input type="hidden" name="order[access_token]" />').val(token));
-        $form.append($('<input type="hidden" name="order[name]" />').val(fullName));
-        $form.append($('<input type="hidden" name="order[street]" />').val(street));
-        $form.append($('<input type="hidden" name="order[city]" />').val(city));
-        $form.append($('<input type="hidden" name="order[state]" />').val(state));
-        $form.append($('<input type="hidden" name="order[zip]" />').val(zip));
-        // and submit
-        $form.get(0).submit();
-      }
-    }
   },
 
   cart: function() {
@@ -157,13 +155,15 @@ $(function() {
 
   CCHBBClient.addEvents();
 
+  Stripe.setPublishableKey('pk_test_0fbtu0To5Q8TurGcFy6XZ505');
+
   $('#payment-form').submit(function(event) {
     var $form = $(this);
 
     // Disable the submit button to prevent repeated clicks
     $form.find('button').prop('disabled', true);
 
-    Stripe.card.createToken($form, stripeResponseHandler);
+    Stripe.card.createToken($form, CCHBBClient.stripeResponseHandler);
 
     // Prevent the form from submitting with the default action
     return false;

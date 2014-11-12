@@ -90,7 +90,7 @@
           <div><strong>Subtotal:</strong> ${{ total_price }}</div>
         </ul>   
         <h1>Checkout</h1>
-        <form action="http://localhost:3000/users" method="POST" id="payment-form">
+        <form action="http://localhost:3000/orders" method="POST" id="payment-form">
           <span class="payment-errors"></span>
 
           <div class="form-row">
@@ -103,28 +103,28 @@
           <div class="form-row">
             <label>
               <span>Street</span>
-              <input type="text" size="20" data-stripe="street"/>
+              <input type="text" size="20" data-stripe="address-line1"/>
             </label>
           </div>
 
           <div class="form-row">
             <label>
               <span>City</span>
-              <input type="text" size="20" data-stripe="city"/>
+              <input type="text" size="20" data-stripe="address-city"/>
             </label>
           </div>
 
           <div class="form-row">
             <label>
               <span>State</span>
-              <input type="text" size="20" data-stripe="state"/>
+              <input type="text" size="20" data-stripe="address-state"/>
             </label>
           </div>
 
           <div class="form-row">
             <label>
               <span>Zipcode</span>
-              <input type="text" size="20" data-stripe="zip"/>
+              <input type="text" size="20" data-stripe="address-zip"/>
             </label>
           </div>
 
