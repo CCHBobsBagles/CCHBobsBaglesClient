@@ -35,6 +35,16 @@ CCHBBClient.addEvents = function() {
     CCHBBClient.cart.orders = newOrder;
     CCHBBClient.router.cart();
   });
+
+  $('#content').on('click', '.js-delete-item-cart', function(e) {
+    e.preventDefault();
+    var name = $(this).next().html();
+    var newOrder = CCHBBClient.cart.orders.filter(function(item) {
+                        return item.name !== name;
+                       });
+    CCHBBClient.cart.orders = newOrder;
+    CCHBBClient.router.menu();
+  });
     // $('#js-placeOrder').on('submit', CCHBBClient.checkOut);
 
     // $('.js-taskForm').on('submit', CCHBBClient.submitTaskForm);
