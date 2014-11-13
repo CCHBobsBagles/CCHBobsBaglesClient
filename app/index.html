@@ -45,7 +45,7 @@
             <li class="menu-type">{{ name }}
                 <ul id="list">
                   {{#menu_items}}  
-                    <li><a class="menu-item"  data-id="{{ id }}" href="#">{{ name }}</a><span class="price"> ${{ price }}</span></li>
+                    <li><a class="menu-item"  data-id="{{ id }}" href="#">{{ name }}</a><span class="price"> {{ price }}</span></li>
                   {{/menu_items}}
                 </ul>
             </li>  
@@ -85,9 +85,9 @@
      <h1>Order Summary</h1>
         <ul>
           {{#each order_items}}
-             <li><a class="order-item">{{ name }}</a><span class="price">{{ price }}</span></li>
+             <li><a class="order-item">{{ name }}</a><span class="price"> {{ price }}</span></li>
           {{/each}}
-          <div><strong>Subtotal:</strong> ${{ total_price }}</div>
+          <div><strong>Subtotal:</strong>${{ total_price }}</div>
         </ul>   
         <h1>Checkout</h1>
         <form action="http://localhost:3000/orders.json" method="POST" id="payment-form">

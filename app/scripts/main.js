@@ -26,7 +26,10 @@ var CCHBBClient = {
         var city = response.card.address_city;
         var state = response.card.address_state;
         var zip = response.card.address_zip;
-
+        var total = 0;
+        for(var i = 0, length = CCHBBClient.cart.orders.length; i < length; i++) {
+          total += parseFloat(CCHBBClient.cart.orders[i].price);
+        };
 
 
         // Insert the token into the form so it gets submitted to the server
@@ -36,6 +39,7 @@ var CCHBBClient = {
         $form.append($('<input type="hidden" name="order[city]" />').val(city));
         $form.append($('<input type="hidden" name="order[state]" />').val(state));
         $form.append($('<input type="hidden" name="order[zipcode]" />').val(zip));
+        $form.append($('<input type="hidden" name="order[price]" />').val(total));
         // and submit
         $form.get(0).submit();
       }
