@@ -58,7 +58,7 @@
                 <li><a class="js-delete-item-cart" href="#">X</a> <a class="order-item">{{ name }}</a><span class="price"> {{ price }}</span></li>
             {{/each}}
           </ul>
-          <a href="#/checkout"><input class="actions" type="submit" value="Place Order"/></a>
+          <input class="actions" type="submit" value="Place Order"/>
         </div>
     </script>
 
@@ -69,7 +69,7 @@
                 <li><a class="js-delete-item" href="#">X</a> <a class="order-item">{{ name }}</a><span class="price"> {{ price }}</span></li>
             {{/each}}
           </ul>
-          <a href="#/checkout"><input class="actions" type="submit" value="Place Order"/></a>
+          <input class="actions" type="submit" value="Place Order"/>
     </script>
 
     <script id="about-temp" type="text/x-handlebars-template">
@@ -90,7 +90,7 @@
           <div><strong>Subtotal:</strong> ${{ total_price }}</div>
         </ul>   
         <h1>Checkout</h1>
-        <form action="http://localhost:3000/orders" method="POST" id="payment-form">
+        <form action="http://localhost:3000/orders.json" method="POST" id="payment-form">
           <span class="payment-errors"></span>
 
           <div class="form-row">
@@ -151,9 +151,14 @@
             <input type="text" size="4" data-stripe="exp-year"/>
           </div>
 
-          <button type="submit" class="actions">Submit Payment</button>
+          <button type="submit" class="actions" id="checkout-button">Submit Payment</button>
         </form>
     </script>
+
+    <script id="conf-temp" type="text/x-handlebars-template">
+        <h1>Order Confirmation</h1>
+    </script>
+
 
     <div class="container">
         <div id="content"></div>
