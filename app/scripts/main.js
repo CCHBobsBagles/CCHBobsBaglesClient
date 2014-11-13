@@ -31,6 +31,14 @@ var CCHBBClient = {
           total += parseFloat(CCHBBClient.cart.orders[i].price);
         };
 
+        for(var i = 0, length = CCHBBClient.cart.orders.length; i < length; i++) {
+          var name = CCHBBClient.cart.orders[i].name;
+          var price = CCHBBClient.cart.orders[i].price;
+
+          $form.append($('<input type="hidden" name="order_item_attributes[name]" />').val(name));
+          $form.append($('<input type="hidden" name="order_item_attributes[price]" />').val(price));
+        };
+
 
         // Insert the token into the form so it gets submitted to the server
         $form.append($('<input type="hidden" name="order[access_token]" />').val(token));
